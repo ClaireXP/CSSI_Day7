@@ -44,7 +44,7 @@
 
 let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
 let frogSpeed = 20;
-let cars = []
+let cars = [];
 
 function preload(){
   car = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep.png?v=1594745795765");
@@ -87,8 +87,10 @@ function draw() {
 }
 
 function addRow(y){
-  let numC = random([2, 3, 4]);
-  let v = random([-4, -3, -2, -1, 1, 2, 3, 4]);
+  let numC = random([2, 3, 4, 5]);
+  let v;
+  if(numC==4 || numC==5) v = random(-2, 2);
+  else v = random(-4, 4);
   for(let i=0; i<numC; i++){
     addCar(-30+(width+30)/numC*i, y, v);
   }
@@ -104,10 +106,10 @@ function keyPressed() {
 function moveCars(c) {
   // Move the car
   c.x += c.v
+  
+  // Reset if it moves off screen
   if(c.x>width && c.v>0) c.x = -30;
   if(c.x<-30 && c.v<0) c.x = width;
-  // Reset if it moves off screen
-
 }
 
 function drawCars(c) {
