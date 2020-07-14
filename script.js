@@ -61,14 +61,24 @@ function setup() {
   lives = 3;
   gameIsOver = false;
   
-  let row1 = 3;
+  let row1 = random(3);
   for(let i=0; i<row1; i++){
-    addCar(-30+(width+30)/row1*i, 100, 5);
+    addCar(-30+(width+30)/row1*i, 80, 4);
   }
   
-  let row2 = 3;
+  let row2 = 2;
   for(let i=0; i<row2; i++){
-    addCar(-30+(width+30)/row2*i, 200, -5);
+    addCar(-30+(width+30)/row2*i, 200, -2);
+  }
+  
+  let row3 = 4;
+  for(let i=0; i<row3; i++){
+    addCar(-30+(width+30)/row3*i, 250, 1);
+  }
+  
+  let row4 = 3;
+  for(let i=0; i<row4; i++){
+    addCar(-30+(width+30)/row4*i, 360, -3);
   }
 }
 
@@ -110,13 +120,16 @@ function moveCars(c) {
 function drawCars(c) {
   // Code for car 1
   fill(0, 80, 80);
-  image(car, c.x, c.y, 50, 30);
+  image(car, c.x, c.y, c.w, c.h);
 }
 
 function checkCollisions(c) {
   // If the frog collides with the car, reset the frog and subtract a life.
-  let hit = collideRectCircle(c.x, c.y, frogX, frogY, 50, 30, 20);
-  if(hit) c.y = 
+  let hit = collideRectCircle(c.x, c.y, c.w, c.h, frogX, frogY, 20);
+  if(hit){
+    frogY = height-20;
+    lives--;
+  } 
 }
 
 function checkWin() {
@@ -140,5 +153,7 @@ function addCar(x, y, v){
     x: x,
     y: y,
     v: v,
+    w: 50,
+    h: 30,
   }) ;
 }
