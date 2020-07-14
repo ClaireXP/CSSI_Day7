@@ -42,6 +42,7 @@
  */
 
 let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
+let cars = []
 
 function preload(){
   car = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep.png?v=1594745795765");
@@ -57,9 +58,6 @@ function setup() {
   score = 0;
   lives = 3;
   gameIsOver = false;
-  car1X = 0;
-  car1Y = 100;
-  car1V = 5;
 }
 
 function draw() {
@@ -93,9 +91,10 @@ function moveCars() {
 function drawCars() {
   // Code for car 1
   fill(0, 80, 80);
-  // rect(car1X, car1Y, 40, 30);
-  image(car, car1X, car1Y, 50, 30);
-  // Code for additional cars
+  
+  for(const c of cars){
+    image(car, car1X, car1Y, 50, 30);
+  }
 }
 
 function checkCollisions() {
@@ -117,4 +116,13 @@ function displayScores() {
 
   // Display game over message if the game is over
 
+}
+
+function addCar(){
+  cars.push({
+    car1X: 0,
+    car1Y: 100,
+    car1V: 5,
+  }) ;
+    
 }
