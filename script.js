@@ -61,25 +61,10 @@ function setup() {
   lives = 3;
   gameIsOver = false;
   
-  let row1 = random(3);
-  for(let i=0; i<row1; i++){
-    addCar(-30+(width+30)/row1*i, 80, 4);
-  }
-  
-  let row2 = 2;
-  for(let i=0; i<row2; i++){
-    addCar(-30+(width+30)/row2*i, 200, -2);
-  }
-  
-  let row3 = 4;
-  for(let i=0; i<row3; i++){
-    addCar(-30+(width+30)/row3*i, 250, 1);
-  }
-  
-  let row4 = 3;
-  for(let i=0; i<row4; i++){
-    addCar(-30+(width+30)/row4*i, 360, -3);
-  }
+  addRow(80);
+  addRow(200);
+  addRow(250);
+  addRow(300);
 }
 
 function draw() {
@@ -99,6 +84,14 @@ function draw() {
   
   checkWin();
   displayScores();
+}
+
+function addRow(y){
+  let numC = random([1, 2, 3, 4, 5]);
+  let v = random([-4, -3, -2, -1, 1, 2, 3, 4]);
+  for(let i=0; i<numC; i++){
+    addCar(-30+(width+30)/numC*i, y, v);
+  }
 }
 
 function keyPressed() {
