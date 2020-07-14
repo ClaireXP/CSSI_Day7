@@ -39,6 +39,7 @@
  *    keyCode, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW,
  *    text, textSize
  *    loadImage, image
+ *    collideRectCircle
  */
 
 let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
@@ -60,7 +61,15 @@ function setup() {
   lives = 3;
   gameIsOver = false;
   
-  addCar();
+  let row1 = 3;
+  for(let i=0; i<row1; i++){
+    addCar(-30+(width+30)/row1*i, 100, 5);
+  }
+  
+  let row2 = 3;
+  for(let i=0; i<row2; i++){
+    addCar(-30+(width+30)/row2*i, 200, -5);
+  }
 }
 
 function draw() {
@@ -92,7 +101,8 @@ function keyPressed() {
 function moveCars(c) {
   // Move the car
   c.x += c.v
-  if(c.x>width) c.x = -30;
+  if(c.x>width && c.v>0) c.x = -30;
+  if(c.x<-30 && c.v<0) c.x = width;
   // Reset if it moves off screen
 
 }
@@ -103,9 +113,10 @@ function drawCars(c) {
   image(car, c.x, c.y, 50, 30);
 }
 
-function checkCollisions() {
+function checkCollisions(c) {
   // If the frog collides with the car, reset the frog and subtract a life.
-
+  let hit = collideRectCircle(c.x, c.y, frogX, frogY, 50, 30, 20);
+  if(hit) c.y = 
 }
 
 function checkWin() {
