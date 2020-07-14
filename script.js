@@ -64,7 +64,7 @@ function setup() {
   addRow(80);
   addRow(200);
   addRow(250);
-  addRow(300);
+  addRow(350);
 }
 
 function draw() {
@@ -87,7 +87,7 @@ function draw() {
 }
 
 function addRow(y){
-  let numC = random([1, 2, 3, 4, 5]);
+  let numC = random([2, 3, 4]);
   let v = random([-4, -3, -2, -1, 1, 2, 3, 4]);
   for(let i=0; i<numC; i++){
     addCar(-30+(width+30)/numC*i, y, v);
@@ -148,5 +148,5 @@ function addCar(x, y, v){
     v: v,
     w: 50,
     h: 30,
-  }) ;
+  });
 }
