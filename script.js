@@ -36,12 +36,13 @@
  *    ellipse, rect
  *    random
  *    width, height
- *    keyCode, UP_ARROW
+ *    keyCode, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW,
  *    text, textSize
  *    loadImage, image
  */
 
 let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
+let frogSpeed = 20;
 let cars = []
 
 function preload(){
@@ -53,11 +54,13 @@ function setup() {
   createCanvas(500, 500);
   colorMode(HSB, 360, 100, 100);
   backgroundColor = 95;
-  frogX = random(width);
-  frogY = random(height);
+  frogX = width/2;
+  frogY = height-20;
   score = 0;
   lives = 3;
   gameIsOver = false;
+  
+  addCar();
 }
 
 function draw() {
@@ -68,33 +71,36 @@ function draw() {
   // Code to display Frog
   fill(120, 80, 80);
   ellipse(frogX, frogY, 20);
-  moveCars();
-  drawCars();
-  checkCollisions();
+  
+  for(const c of cars){
+    moveCars(c);
+    drawCars(c);
+    checkCollisions(c);
+  }
+  
   checkWin();
   displayScores();
 }
 
 function keyPressed() {
-  if (keyCode === UP_ARROW) {
-    frogY -= 10;
-  }
+  if (keyCode === UP_ARROW) frogY -= frogSpeed;
+  if (keyCode === DOWN_ARROW) frogY += frogSpeed;
+  if (keyCode === LEFT_ARROW) frogX -= frogSpeed;
+  if (keyCode === RIGHT_ARROW) frogX += frogSpeed;
 }
 
-function moveCars() {
+function moveCars(c) {
   // Move the car
-
+  c.x += c.v
+  if(c.x>width) c.x = -30;
   // Reset if it moves off screen
 
 }
 
-function drawCars() {
+function drawCars(c) {
   // Code for car 1
   fill(0, 80, 80);
-  
-  for(const c of cars){
-    image(car, car1X, car1Y, 50, 30);
-  }
+  image(car, c.x, c.y, 50, 30);
 }
 
 function checkCollisions() {
@@ -118,11 +124,10 @@ function displayScores() {
 
 }
 
-function addCar(){
+function addCar(x, y, v){
   cars.push({
-    car1X: 0,
-    car1Y: 100,
-    car1V: 5,
+    x: x,
+    y: y,
+    v: v,
   }) ;
-    
 }
