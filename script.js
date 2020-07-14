@@ -87,9 +87,9 @@ function draw() {
 }
 
 function addRow(y){
-  let numC = random([2, 3, 4, 5]);
+  let numC = random([2, 3, 4]);
   let v;
-  if(numC==4 || numC==5) v = random(-2, 2);
+  if(numC==4) v = random(-2, 2);
   else v = random(-4, 4);
   for(let i=0; i<numC; i++){
     addCar(-30+(width+30)/numC*i, y, v);
@@ -124,12 +124,13 @@ function checkCollisions(c) {
   if(hit){
     frogY = height-20;
     lives--;
-  } 
+  }
 }
 
 function checkWin() {
   // If the frog makes it into the yellow gold zone, increment the score
   // and move the frog back down to the bottom.
+  if(frogY<50) frogY = height-20;
 }
 
 function displayScores() {
@@ -138,7 +139,7 @@ function displayScores() {
   // Display Lives
   text(`Lives: ${lives}`, 10, 20);
   // Display Score
-
+  text(`Score: ${score}`, 10, 40);
   // Display game over message if the game is over
 
 }
