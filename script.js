@@ -38,9 +38,14 @@
  *    width, height
  *    keyCode, UP_ARROW
  *    text, textSize
+ *    loadImage, image
  */
 
-let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V;
+let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
+
+function preload(){
+  car = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep.png?v=1594745795765");
+}
 
 function setup() {
   // Canvas & color settings
@@ -88,7 +93,8 @@ function moveCars() {
 function drawCars() {
   // Code for car 1
   fill(0, 80, 80);
-  rect(car1X, car1Y, 40, 30);
+  // rect(car1X, car1Y, 40, 30);
+  image(car, car1X, car1Y, 50, 30);
   // Code for additional cars
 }
 
