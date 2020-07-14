@@ -45,6 +45,7 @@
 let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
 let frogSpeed = 20;
 let cars = [];
+let riverY = 200;
 
 function preload(){
   car = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep.png?v=1594745795765");
@@ -62,8 +63,7 @@ function setup() {
   gameIsOver = false;
   
   addRow(80);
-  addRow(200);
-  addRow(250);
+  addRow(240);
   addRow(350);
 }
 
@@ -75,6 +75,15 @@ function draw() {
   // Code to display Frog
   fill(120, 80, 80);
   ellipse(frogX, frogY, 20);
+  
+  fill(175, 60, 80);
+  rect(0, riverY, width, 30);
+  
+  // let numC = random([2, 3, 4]);
+  // let v = random(2, 5);
+  // for(let i=0; i<numC; i++){
+  //   addLog(-30+(width+30)/numC*i, 175, v);
+  // }
   
   for(const c of cars){
     moveCars(c);
@@ -145,6 +154,17 @@ function displayScores() {
 }
 
 function addCar(x, y, v){
+  cars.push({
+    x: x,
+    y: y,
+    v: v,
+    w: 50,
+    h: 30,
+    color: random(255),
+  });
+}
+
+function addLog(x, y, v){
   cars.push({
     x: x,
     y: y,
