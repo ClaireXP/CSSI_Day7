@@ -174,14 +174,15 @@ function checkLog(l){
       frogY = height-20;
       lives--;
     }
-  }else{
-    let inRiver = collideRectCircle(0, riverY, width, 30, frogX, frogY, 20);
-    
-    if(inRiver){
-      frogY = height-20;
-      lives--;
-    }
   }
+//   else{
+//     let inRiver = collideRectCircle(0, riverY, width, 30, frogX, frogY, 20);
+    
+//     if(inRiver){
+//       frogY = height-20;
+//       lives--;
+//     }
+//   }
 }
 
 function checkWin() {
