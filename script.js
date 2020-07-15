@@ -64,7 +64,41 @@ function setup() {
   lives = 3;
   gameIsOver = false;
   
+  refresh();
+}
+
+function draw() {
+  if(lives>0){
+    background(backgroundColor);
+    // Code for gold goal line
+    fill(60, 80, 80);
+    rect(0, 0, width, 50);
+    // Code to display Frog
+
+    fill(175, 60, 80);
+    rect(0, riverY, width, 30);
+
+    for(const c of cars){
+      moveCars(c);
+      drawCars(c);
+      checkCollisions(c);
+    }for(const l of logs){
+      moveLogs(l);
+      drawLogs(l);
+      checkLog(l);
+    }
+
+    fill(120, 80, 80);
+    ellipse(frogX, frogY, 20);
+
+    checkWin();
+    displayScores();
+  }
+}
+
+function refresh(){
   addRow(80);
+  addRow(120);
   addRow(240);
   addRow(350);
   
@@ -75,38 +109,11 @@ function setup() {
   }
 }
 
-function draw() {
-  background(backgroundColor);
-  // Code for gold goal line
-  fill(60, 80, 80);
-  rect(0, 0, width, 50);
-  // Code to display Frog
-  
-  fill(175, 60, 80);
-  rect(0, riverY, width, 30);
-  
-  for(const c of cars){
-    moveCars(c);
-    drawCars(c);
-    checkCollisions(c);
-  }for(const l of logs){
-    moveLogs(l);
-    drawLogs(l);
-    checkLog(l);
-  }
-  
-  fill(120, 80, 80);
-  ellipse(frogX, frogY, 20);
-  
-  checkWin();
-  displayScores();
-}
-
 function addRow(y){
   let numC = random([2, 3, 4]);
   let v;
-  if(numC==4) v = random(-2, 2);
-  else v = random(-4, 4);
+  if(numC==4) v = random([-2, -1.5, -1, -.5, .5, 1, 1.5, 2]);
+  else v = random([-4, -3.5, -3, -2.5, -2, -1.5, -1, 1, 1.5, 2, 2.5, 3, 3.5, 4]);
   for(let i=0; i<numC; i++){
     addCar(-30+(width+30)/numC*i, y, v);
   }
@@ -149,7 +156,7 @@ function drawLogs(l) {
   rect(l.x, l.y, l.w, l.h);
 }
 
-function checkCollisions(c, l) {
+function checkCollisions(c) {
   // If the frog collides with the car, reset the frog and subtract a life.
   let hit = collideRectCircle(c.x, c.y, c.w, c.h, frogX, frogY, 20);
   if(hit){
@@ -163,18 +170,32 @@ function checkLog(l){
   if(onLog){
     if(!keyPressed) frogY=l.y+l.h/2;
     frogX+=l.v;
-  }
-  
-  let 
-  if(!onLog){
+    if(frogX>width){
+      frogY = height-20;
+      lives--;
+    }
+  }else{
+    let inRiver = collideRectCircle(0, riverY, width, 30, frogX, frogY, 20);
     
+    if(inRiver){
+      frogY = height-20;
+      lives--;
+    }
   }
 }
 
 function checkWin() {
   // If the frog makes it into the yellow gold zone, increment the score
   // and move the frog back down to the bottom.
-  if(frogY<50) frogY = height-20;
+  if(frogY<50){
+    frogY = height-20;
+    score++;
+    
+    cars = [];
+    logs = [];
+    
+    refresh();
+  } 
 }
 
 function displayScores() {
