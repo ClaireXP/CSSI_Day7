@@ -42,13 +42,15 @@
  *    collideRectCircle
  */
 
-let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car;
+let backgroundColor, frogX, frogY, score, lives, gameIsOver, car1X, car1Y, car1V, car, carLeft;
 let frogSpeed = 20;
 let cars = [];
+let logs = [];
 let riverY = 200;
 
 function preload(){
   car = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep.png?v=1594745795765");
+  carLeft = loadImage("https://cdn.glitch.com/e911600f-795c-44bd-a7ac-86e6b8b64455%2Fjeep%20(2).png?v=1594774507143");
 }
 
 function setup() {
@@ -65,6 +67,12 @@ function setup() {
   addRow(80);
   addRow(240);
   addRow(350);
+  
+  let numC = random([2, 3, 4, 5, 6]);
+  let v = random(1, 4);
+  for(let i=0; i<numC; i++){
+    addLog(-30+(width+30)/numC*i, riverY, v);
+  }
 }
 
 function draw() {
@@ -79,16 +87,13 @@ function draw() {
   fill(175, 60, 80);
   rect(0, riverY, width, 30);
   
-  // let numC = random([2, 3, 4]);
-  // let v = random(2, 5);
-  // for(let i=0; i<numC; i++){
-  //   addLog(-30+(width+30)/numC*i, 175, v);
-  // }
-  
   for(const c of cars){
     moveCars(c);
     drawCars(c);
     checkCollisions(c);
+  }for(const l of logs){
+    moveLogs(l);
+    drawLogs(l);
   }
   
   checkWin();
@@ -124,15 +129,35 @@ function moveCars(c) {
 function drawCars(c) {
   // Code for car 1
   fill(0, 80, 80);
-  image(car, c.x, c.y, c.w, c.h);
+  if(c.v>0) image(car, c.x, c.y, c.w, c.h);
+  else image(carLeft, c.x, c.y, c.w, c.h);
 }
 
-function checkCollisions(c) {
+function moveLogs(l) {
+  // Move the car
+  l.x += l.v
+  
+  // Reset if it moves off screen
+  if(l.x>width && l.v>0) l.x = -30;
+  if(l.x<-30 && l.v<0) l.x = width;
+}
+
+function drawLogs(l) {
+  fill(35, 72, 22);
+  rect(l.x, l.y, l.w, l.h);
+}
+
+function checkCollisions(c, l) {
   // If the frog collides with the car, reset the frog and subtract a life.
   let hit = collideRectCircle(c.x, c.y, c.w, c.h, frogX, frogY, 20);
   if(hit){
     frogY = height-20;
     lives--;
+  }
+  
+  let onLog = collideRectCircle(c.x, c.y, c.w, c.h, frogX, frogY, 20);
+  if(onLog){
+    c.x+=l.v;
   }
 }
 
@@ -165,11 +190,11 @@ function addCar(x, y, v){
 }
 
 function addLog(x, y, v){
-  cars.push({
+  logs.push({
     x: x,
     y: y,
     v: v,
-    w: 50,
+    w: 60,
     h: 30,
   });
 }
