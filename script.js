@@ -68,8 +68,8 @@ function setup() {
   addRow(240);
   addRow(350);
   
-  let numC = random([2, 3, 4, 5, 6]);
-  let v = random(1, 4);
+  let numC = random([2, 3, 4]);
+  let v = random(3);
   for(let i=0; i<numC; i++){
     addLog(-30+(width+30)/numC*i, riverY, v);
   }
@@ -81,8 +81,6 @@ function draw() {
   fill(60, 80, 80);
   rect(0, 0, width, 50);
   // Code to display Frog
-  fill(120, 80, 80);
-  ellipse(frogX, frogY, 20);
   
   fill(175, 60, 80);
   rect(0, riverY, width, 30);
@@ -94,7 +92,11 @@ function draw() {
   }for(const l of logs){
     moveLogs(l);
     drawLogs(l);
+    checkLog(l);
   }
+  
+  fill(120, 80, 80);
+  ellipse(frogX, frogY, 20);
   
   checkWin();
   displayScores();
@@ -154,10 +156,18 @@ function checkCollisions(c, l) {
     frogY = height-20;
     lives--;
   }
-  
-  let onLog = collideRectCircle(c.x, c.y, c.w, c.h, frogX, frogY, 20);
+}
+
+function checkLog(l){
+  let onLog = collideRectCircle(l.x, l.y, l.w, l.h, frogX, frogY, 20);
   if(onLog){
-    c.x+=l.v;
+    if(!keyPressed) frogY=l.y+l.h/2;
+    frogX+=l.v;
+  }
+  
+  let 
+  if(!onLog){
+    
   }
 }
 
